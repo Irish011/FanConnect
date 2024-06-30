@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Team, Post
 from pymongo import MongoClient
 from django.contrib.auth.decorators import login_required
-from .forms import TeamForm, UserForm
+from .forms import TeamForm, UserForm, UsersForm
 from django.http import HttpResponse
 from db_connections import user_collection, matches_collection, club_collection, predictions_collections
 from django.contrib.auth import authenticate, login
@@ -89,7 +89,8 @@ def register_user(request):
                 'mobile_number': mobile_number,
                 'country': country,
                 'password': password,
-                'favorite_clubs': favorite_club_ids
+                'favorite_clubs': favorite_club_ids,
+                'rewards': 0,
             })
 
             return redirect('home')
@@ -120,14 +121,14 @@ def login_view(request):
 def profile(request):
     user = request.user
     # Assuming you have a MongoDB connection
-    client = MongoClient('mongodb://localhost:27017/')
-    db = client['FanConnect']
-    users_collection = db['users']
-    clubs_collection = db['clubs']
-    user_document = users_collection.find_one({'username': user.username})
+    # client = MongoClient('mongodb://localhost:27017/')
+    # db = client['FanConnect']
+    # users_collection = db['users']
+    # clubs_collection = db['clubs']
+    user_document = user_collection.find_one({'username': user.username})
     favorite_club_ids = user_document.get('favorite_clubs', [])
     favorite_club_object_ids = [ObjectId(club_id) for club_id in favorite_club_ids]
-    favorite_clubs = list(clubs_collection.find({'_id': {'$in': favorite_club_object_ids}}))
+    favorite_clubs = list(club_collection.find({'_id': {'$in': favorite_club_object_ids}}))
     user_document['favorite_clubs_names'] = [club['name'] for club in favorite_clubs]
     # user_document = users_collection.find_one({'username': user.username})
     return render(request, 'core/profile.html', {
@@ -164,7 +165,7 @@ def matches_view(request):
         '$and': [
             {'$or': [
                 {'home_team_id': {'$in': favorite_clubs}},
-        # [ObjectId('667d90d311f62f86c25c7eae')
+                # [ObjectId('667d90d311f62f86c25c7eae')
                 {'away_team_id': {'$in': favorite_clubs}}
             ]},
             {'status': 'Upcoming'}
@@ -209,27 +210,51 @@ def get_user_id(users):
     return [str(user['_id']) for user in users]
 
 
+@login_required
 def predict(request):
     upcoming_matches = list(matches_collection.find({"status": "Upcoming"}))
-    # match = matches_collection.find_one({"_id": ObjectId(match_id)})
-    # if not match:
-    #     return render(request, 'core/predict.html', {'error': 'Match not found'})
-
     for match in upcoming_matches:
         match['home_team_name'] = get_club_name(match['home_team_id'])
         match['away_team_name'] = get_club_name(match['away_team_id'])
         match['match_id'] = str(match['_id'])
+        match['is_predicted'] = match.get('is_predicted')
+        # print(match['is_predicted'])
 
     match_ids = get_match_id(upcoming_matches)
+    user_document = user_collection.find_one({"username": request.user.username})
+    user_id = user_document['_id']
 
+    # predicted = predictions_collections.find_one({"user_id": user_id, "match_id": match_ids})
+    # print(match_ids)
     if request.method == 'POST':
         prediction = request.POST.get('prediction')
 
         return redirect('matches')
 
-    return render(request, 'core/predict.html', {'upcoming_matches': upcoming_matches, 'match_ids': match_ids})
+    return render(request, 'core/predict.html',
+                  {'upcoming_matches': upcoming_matches, 'match_ids': match_ids, "user_id": user_id})
 
 
+def edit_clubs(request):
+    user_document = user_collection.find_one({"username": request.user.username})
+
+    if request.method == 'POST':
+        form = UsersForm(request.POST)
+        if form.is_valid():
+            favorite_clubs = form.cleaned_data['favorite_clubs']
+            user_collection.update_one(
+                {'_id': user_document['_id']},
+                {'$set': {'favorite_clubs': favorite_clubs}}
+            )
+            return redirect('profile')
+    else:
+        initial_favorite_clubs = [str(club) for club in user_document.get('favorite_clubs', [])]
+        form = UsersForm(initial={'favorite_clubs': initial_favorite_clubs})
+
+    return render(request, 'core/edit_clubs.html', {'form': form})
+
+
+@login_required
 def match_poll(request, match_id):
     try:
         match = matches_collection.find_one({"_id": ObjectId(match_id)})
@@ -253,12 +278,19 @@ def match_poll(request, match_id):
                 'match_id': ObjectId(match_id),
                 'win_team_id': ObjectId(win_team_id)
             }
-            print(prediction_data)
+            # print(prediction_data)
+
             predictions_collections.insert_one({
                 'user_id': user_id,
                 'match_id': ObjectId(match_id),
                 'win_team_id': ObjectId(win_team_id)
             })
+
+            # matches_collection.update_one(
+            #     {'_id': ObjectId(match_id)},
+            #     {'$set': {'is_predicted': True}}
+            # )
+
             return redirect('match_details')
 
     return render(request, 'core/match_predict.html', {'match': match})

@@ -22,7 +22,6 @@ class UserForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(UserForm, self).__init__(*args, **kwargs)
-        # Dynamically set choices for favorite_clubs from the club collection
         clubs = list(club_collection.find())
         club_choices = [(str(club['_id']), club['name']) for club in clubs]
         self.fields['favorite_clubs'].choices = club_choices
@@ -36,5 +35,20 @@ class UserForm(forms.Form):
         return favorite_clubs
 
 
+class UsersForm(forms.Form):
+    favorite_clubs = forms.MultipleChoiceField(choices=[], widget=forms.CheckboxSelectMultiple)
 
+    def __init__(self, *args, **kwargs):
+        super(UsersForm, self).__init__(*args, **kwargs)
+        # Dynamically set choices for favorite_clubs from the club collection
+        clubs = list(club_collection.find())
+        club_choices = [(str(club['_id']), club['name']) for club in clubs]
+        self.fields['favorite_clubs'].choices = club_choices
 
+    def clean_favorite_club(self):
+        favorite_clubs = self.cleaned_data['favorite_clubs']
+        try:
+            favorite_clubs = [ObjectId(club_id) for club_id in favorite_clubs]
+        except InvalidId:
+            raise forms.ValidationError("Invalid club ID format")
+        return favorite_clubs

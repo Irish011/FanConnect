@@ -78,6 +78,7 @@ WSGI_APPLICATION = "fanconnect.wsgi.application"
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL = '/login/'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

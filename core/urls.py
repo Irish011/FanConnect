@@ -16,4 +16,5 @@ urlpatterns = [
     path('predict/<str:match_id>/', views.match_poll, name='poll'),
     path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+    path('edit_clubs/', views.edit_clubs, name='edit_clubs'),
 ]
