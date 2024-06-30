@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - FanConnect</title>
+</head>
+<body>
+    <h1>Teams</h1>
+    <ul>
+        {% for team in teams %}
+        <li><a href="{% url 'team_detail' team.id %}">{{ team.name }}</a> </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

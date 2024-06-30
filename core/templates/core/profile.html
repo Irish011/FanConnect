@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+<header>
+        <div class="top-bar">
+            <div class="welcome-message">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}</span>
+                {% else %}
+                    <span>Welcome, Guest</span>
+                {% endif %}
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'get_all_club' %}">Clubs</a></li>
+                    <li><a href="{% url 'match_details' %}">Matches</a></li>
+                    <li><a href="#">Predictions</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                </ul>
+            </nav>
+            <div class="logout-button">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <h2>User Profile</h2>
+
+  <h3>Profile Information</h3>
+
+  {% if user_document %}
+    <ul>
+      <li><strong>Username:</strong> {{ user_document.username }}</li>
+      <li><strong>Email:</strong> {{ user_document.email }}</li>
+      <li><strong>Age:</strong> {{ user_document.age }}</li>
+      <li><strong>Mobile Number:</strong> {{ user_document.mobile_number }}</li>
+      <li><strong>Country:</strong> {{ user_document.country }}</li>
+      <li><strong>Favorite Clubs:</strong>
+        <ul>
+          {% for club_name in user_document.favorite_clubs_names %}
+            <li>{{ club_name }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+      <!-- Add other fields as needed -->
+    </ul>
+  {% else %}
+    <p>No user document found.</p>
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matches</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="welcome-message">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}</span>
+                {% else %}
+                    <span>Welcome, Guest</span>
+                {% endif %}
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'get_all_club' %}">Clubs</a></li>
+                    <li><a href="{% url 'match_details' %}">Matches</a></li>
+                    <li><a href="#">Predictions</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                </ul>
+            </nav>
+            <div class="logout-button">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Matches</h1>
+        <div class="matches-container">
+            <div class="matches-section">
+                <h2>Upcoming Matches</h2>
+                {% if upcoming_matches %}
+                    <ul>
+                        <script> console.log("{{ upcoming_matches }}")</script>
+                        {% for match in upcoming_matches %}
+                        <script> console.log({{ match }})</script>
+                            <li>{{ match.home_team_name }} vs {{ match.away_team_name }} on {{ match.date }}
+                                <a href="/predict/"><button>Predict</button></a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No upcoming matches.</p>
+                {% endif %}
+            </div>
+            <div class="matches-section">
+                <h2>Completed Matches</h2>
+                {% if completed_matches %}
+                    <ul>
+                        {% for match in completed_matches %}
+                            <li>{{ match.home_team_name }} vs {{ match.away_team_name }} on {{ match.date }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No completed matches.</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

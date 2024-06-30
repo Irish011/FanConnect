@@ -1,0 +1,96 @@
+/* static/core/style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    padding: 10px 0;
+    color: white;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 20px;
+}
+
+.welcome-message {
+    font-size: 18px;
+}
+
+.nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.logout-button a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.logout-button a:hover {
+    text-decoration: underline;
+}
+
+main {
+    padding: 40px;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+.matches-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.matches-column {
+    width: 45%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.matches-column h2 {
+    margin-top: 0;
+}
+
+.matches-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.matches-column li {
+    margin-bottom: 20px;
+}
+
+.matches-column img {
+    vertical-align: middle;
+    margin-right: 10px;
+}

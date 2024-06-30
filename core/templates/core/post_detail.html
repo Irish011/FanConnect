@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post.title }} - FanConnect</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p>By {{ post.author.username }} on {{ post.created_at }}</p>
+    <p>{{ post.content }}</p>
+    <a href="{% url 'team_detail' post.team.id %}">Back to {{ post.team.name }}</a>
+</body>
+</html>
