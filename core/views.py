@@ -145,12 +145,27 @@ def get_match_to(match):
 
 
 def matches_view(request):
+    user = request.user
+    if not user.is_authenticated:
+        return redirect('login')
+
+    user_document = user_collection.find_one({"username": request.user.username})
+    if not user_document:
+        return render(request, 'core/matches.html', {
+            'upcoming_matches': [],
+            'completed_matches': [],
+        })
+    favorite_clubs = user_document['favorite_clubs']
+    # favorite_clubs = user_document.get('favorite_clubs', [])
+    # print(favorite_clubs)
     # upcoming_matches = list(matches_collection.find({"status": "Upcoming"}))
+
     upcoming_matches = matches_collection.find({
         '$and': [
             {'$or': [
-                {'home_team_id': {'$in': [ObjectId('667d90d311f62f86c25c7eae')]}},
-                {'away_team_id': {'$in': [ObjectId('667d90d311f62f86c25c7eae')]}}
+                {'home_team_id': {'$in': favorite_clubs}},
+        # [ObjectId('667d90d311f62f86c25c7eae')
+                {'away_team_id': {'$in': favorite_clubs}}
             ]},
             {'status': 'Upcoming'}
         ]
@@ -186,47 +201,12 @@ def matches_view(request):
     })
 
 
-def match_details(request):
-    user = request.user
-
-    if not user.is_authenticated:
-        return render(request, 'core/matches.html', {
-            'upcoming_matches': [],
-            'completed_matches': [],
-            'preferred_clubs': [],
-        })
-
-    user_document = user_collection.find_one({"_id": ObjectId(user.id)})
-    favorite_club_ids = user_document['favorite_clubs']
-
-    preferred_clubs = list(club_collection.find({"_id": {"$in": favorite_club_ids}}))
-    preferred_club_ids = [club["_id"] for club in preferred_clubs]
-
-    upcoming_matches = list(matches_collection.find({
-        "status": "upcoming",
-        "$or": [{"home_team_id": {"$in": preferred_club_ids}}, {"away_team_id": {"$in": preferred_club_ids}}]
-    }))
-
-    completed_matches = list(matches_collection.find({
-        "status": "completed",
-        "$or": [{"home_team_id": {"$in": preferred_club_ids}}, {"away_team_id": {"$in": preferred_club_ids}}]
-    }))
-
-    for match in upcoming_matches:
-        match['match_id'] = match['_id']
-
-    for match in completed_matches:
-        match['match_id'] = match['_id']
-
-    return render(request, 'core/matches.html', {
-        'upcoming_matches': upcoming_matches,
-        'completed_matches': completed_matches,
-        'preferred_clubs': preferred_clubs,
-    })
-
-
 def get_match_id(matches):
     return [str(match['_id']) for match in matches]
+
+
+def get_user_id(users):
+    return [str(user['_id']) for user in users]
 
 
 def predict(request):
@@ -251,7 +231,11 @@ def predict(request):
 
 
 def match_poll(request, match_id):
-    match = matches_collection.find_one({"_id": ObjectId(match_id)})
+    try:
+        match = matches_collection.find_one({"_id": ObjectId(match_id)})
+    except:
+        match = None
+
     if not match:
         return render(request, 'core/match_predict.html', {'error': 'Match not found'})
 
@@ -259,13 +243,22 @@ def match_poll(request, match_id):
     match['away_team_name'] = get_club_name(match['away_team_id'])
 
     if request.method == 'POST':
-        prediction = request.POST.get('prediction')
-        user_id = request.user.id
-        prediction_data = {
-            'user_id': user_id,
-            'match_id': match_id,
-            'prediction': prediction,
-        }
-        predictions_collections.insert_one(prediction_data)
-        return redirect('matches')
+        win_team_id = request.POST.get('prediction')
+        # Fetch the user document to get the correct MongoDB ObjectId
+        user_document = user_collection.find_one({"username": request.user.username})
+        if user_document:
+            user_id = user_document['_id']
+            prediction_data = {
+                'user_id': user_id,
+                'match_id': ObjectId(match_id),
+                'win_team_id': ObjectId(win_team_id)
+            }
+            print(prediction_data)
+            predictions_collections.insert_one({
+                'user_id': user_id,
+                'match_id': ObjectId(match_id),
+                'win_team_id': ObjectId(win_team_id)
+            })
+            return redirect('match_details')
+
     return render(request, 'core/match_predict.html', {'match': match})
