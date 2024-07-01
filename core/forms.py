@@ -1,14 +1,9 @@
 from django import forms
-from .models import Team
 from db_connections import club_collection
 from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
 
-class TeamForm(forms.ModelForm):
-    class Meta:
-        model = Team
-        fields = ['name', 'description', 'logo']
 
 
 class UserForm(forms.Form):

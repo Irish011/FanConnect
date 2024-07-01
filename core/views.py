@@ -1,8 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .decorators import fetch_user_document, fetch_favorite_clubs, check_predictions, fetch_matches, get_club_name
-from .models import Team, Post
 from django.contrib.auth.decorators import login_required
-from .forms import TeamForm, UserForm, UsersForm
+from .forms import UserForm, UsersForm
 from django.http import HttpResponse
 from db_connections import user_collection, matches_collection, club_collection, predictions_collections
 from django.contrib.auth import authenticate, login
@@ -123,6 +122,7 @@ def profile(request):
 @fetch_matches
 @check_predictions
 def matches_view(request):
+    print("hi")
     if not request.user.is_authenticated:
         completed_matches = list(matches_collection.find({"status": "Completed"}))
         upcoming_matches = list(matches_collection.find({"status": "Upcoming"}))
@@ -135,11 +135,12 @@ def matches_view(request):
             'upcoming_matches': upcoming_matches,
             'completed_matches': completed_matches,
         })
-
+    print("hi")
     return render(request, 'core/matches.html', {
         'upcoming_matches': request.upcoming_matches,
         'completed_matches': request.completed_matches,
     })
+
 
 
 @login_required
@@ -177,20 +178,6 @@ def edit_clubs(request):
     return render(request, 'core/edit_clubs.html', {
         'form': form,
     })
-        # selected_club_ids = request.POST.getlist('favorite_clubs')
-        # user_document = request.user_document
-        # print(selected_club_ids)
-        # user_collection.update_one({'_id': user_document['_id']},
-        #                            {'$set': {'favorite_clubs': selected_club_ids}})
-        # return redirect('profile')
-    id_club = [str(club['_id']) for club in request.favorite_clubs]
-    # print(id_club)
-    # print(request.favorite_clubs)
-    # clubs = list(club_collection.find())
-    # return render(request, 'core/edit_clubs.html', {
-    #     'clubs': clubs,
-    #     'favorite_club_ids': [str(club['_id']) for club in request.favorite_clubs],
-    # })
 
 
 @login_required

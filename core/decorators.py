@@ -7,13 +7,14 @@ from db_connections import user_collection, matches_collection, club_collection,
 def fetch_user_document(func):
     @wraps(func)
     def wrapper(request, *args, **kwargs):
-        user_document = user_collection.find_one({"username": request.user.username})
-        if not user_document:
-            return render(request, 'core/matches.html', {
-                'upcoming_matches': [],
-                'completed_matches': [],
-            })
-        request.user_document = user_document
+        if request.user.is_authenticated:
+            user_document = user_collection.find_one({"username": request.user.username})
+            if not user_document:
+                return render(request, 'core/matches.html', {
+                    'upcoming_matches': [],
+                    'completed_matches': [],
+                })
+            request.user_document = user_document
         return func(request, *args, **kwargs)
 
     return wrapper
