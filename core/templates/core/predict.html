@@ -5,6 +5,7 @@
     <title>Predict</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
@@ -29,39 +30,43 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
-    <main>
-        <h1>Predict Upcoming Matches</h1>
-        <div class="matches-container">
-            <div class="matches-section">
-                {% if upcoming_matches %}
-                    <ul>
-                        {% for match in upcoming_matches %}
-                            <li>{{ match.home_team_name }} vs {{ match.away_team_name }} on {{ match.date }}
-                                {% if match.is_predicted %}
-                                    <span>Already Predicted</span>
-                                {% else %}
-                                    <a href="/predict/{{ match.match_id }}"><button>Predict</button></a>
-<!--                                <span>Match Id: {{ match.match_id }}</span>-->
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No upcoming matches.</p>
-                {% endif %}
-            </div>
-        </div>
-    </main>
+    <main class="container mt-3">
+    <h1>Predict Upcoming Matches</h1></br>
+    <div class="row">
+        {% if upcoming_matches %}
+            {% for match in upcoming_matches %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ match.home_team_name }} vs {{ match.away_team_name }}</h5>
+                            <p class="card-text">Date: {{ match.date }}</p>
+                            {% if match.is_predicted %}
+                                <span class="badge badge-secondary">Already Predicted</span>
+                            {% else %}
+                                <a href="/predict/{{ match.match_id }}" class="btn btn-primary">Predict</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No upcoming matches.</p>
+        {% endif %}
+    </div>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

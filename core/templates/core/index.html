@@ -6,6 +6,7 @@
     <title>FanConnect - Home</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Home Page</title>
 </head>
 <body>
@@ -31,35 +32,43 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
-    <main>
-        <h1>Welcome to FanConnect</h1>
-        {% if user.is_authenticated %}
+    <main class="container mt-5">
+    <h1>Welcome to FanConnect</h1>
+    {% if user.is_authenticated %}
         {% if favorite_clubs %}
-            <p>Your club preferences are:</p>
-            <ul>
+        </br>
+        <h3>Your favorite clubs are: </h3></br>
+            <div class="row">
                 {% for club_name in favorite_clubs %}
-                    <li>{{ club_name }}</li>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ club_name }}</h5>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>You haven't selected any club preferences yet.</p>
         {% endif %}
     {% else %}
         <p>Please login to predict and earn rewards.</p>
     {% endif %}
-
-
-    </main>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

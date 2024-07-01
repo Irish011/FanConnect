@@ -5,6 +5,7 @@
     <title>User Profile</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <header>
@@ -29,39 +30,46 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
-    <h2>User Profile</h2>
-
-  <h3>Profile Information</h3>
-
-  {% if user_document %}
-    <ul>
-      <li><strong>Username:</strong> {{ user_document.username }}</li>
-      <li><strong>Email:</strong> {{ user_document.email }}</li>
-      <li><strong>Age:</strong> {{ user_document.age }}</li>
-      <li><strong>Mobile Number:</strong> {{ user_document.mobile_number }}</li>
-      <li><strong>Country:</strong> {{ user_document.country }}</li>
-      <li><strong>Favorite Clubs:</strong>
-        <ul>
-          {% for club_name in user_document.favorite_clubs_names %}
-            <li>{{ club_name }}</li>
-          {% endfor %}
-        </ul>
-      </li>
-    </ul>
-    <a href="{% url 'edit_clubs' %}"><button>Edit Favorite Clubs</button></a>
-  {% else %}
-    <p>No user document found.</p>
-  {% endif %}
+    <main class="container mt-3">
+    {% if user_document %}
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title"><u>Profile Information</u></h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Username:</strong> {{ user_document.username }}</li>
+                    <li class="list-group-item"><strong>Email:</strong> {{ user_document.email }}</li>
+                    <li class="list-group-item"><strong>Age:</strong> {{ user_document.age }}</li>
+                    <li class="list-group-item"><strong>Mobile Number:</strong> {{ user_document.mobile_number }}</li>
+                    <li class="list-group-item"><strong>Country:</strong> {{ user_document.country }}</li>
+                    <li class="list-group-item"><strong>Rewards:</strong> {{ user_document.rewards }}</li>
+                    <li class="list-group-item"><strong>Favorite Clubs:</strong>
+                        <ul>
+                            {% for club_name in user_document.favorite_clubs_names %}
+                                <li>{{ club_name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+                <a href="{% url 'edit_clubs' %}" class="btn btn-primary mt-3">Edit Favorite Clubs</a>
+            </div>
+        </div>
+    {% else %}
+        <p>No user document found.</p>
+    {% endif %}
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

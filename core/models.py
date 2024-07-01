@@ -24,5 +24,17 @@ class Post(models.Model):
         return self.title
 
 
-
-
+# class Match(models.Model):
+#     STATUS_CHOICES = [
+#         ('Upcoming', 'Upcoming'),
+#         ('Completed', 'Completed'),
+#     ]
+#
+#     home_team = models.CharField(max_length=100)
+#     away_team = models.CharField(max_length=100)
+#     date = models.DateTimeField()
+#     status = models.CharField(max_length=10, choices=STATUS_CHOICES,
+#                               default='Upcoming')
+#
+#     def __str__(self):
+#         return f"{self.home_team} vs {self.away_team} on {self.date}"

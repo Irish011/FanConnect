@@ -28,6 +28,9 @@ class UserForm(forms.Form):
 
     def clean_favorite_club(self):
         favorite_clubs = self.cleaned_data['favorite_clubs']
+
+        if len(favorite_clubs) > 3:
+            raise forms.ValidationError("You can select upto 3 favorite clubs only.")
         try:
             favorite_clubs = [ObjectId(club_id) for club_id in favorite_clubs]
         except InvalidId:
@@ -47,8 +50,10 @@ class UsersForm(forms.Form):
 
     def clean_favorite_club(self):
         favorite_clubs = self.cleaned_data['favorite_clubs']
+
         try:
             favorite_clubs = [ObjectId(club_id) for club_id in favorite_clubs]
         except InvalidId:
             raise forms.ValidationError("Invalid club ID format")
+
         return favorite_clubs

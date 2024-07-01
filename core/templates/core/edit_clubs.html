@@ -5,6 +5,7 @@
     <title>EDIT CLUBS</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
@@ -29,21 +30,31 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
+    <main class="container mt-5">
     <h2>Edit Favorite Clubs</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

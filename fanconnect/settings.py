@@ -43,8 +43,26 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'core',
+    'core'
 ]
+
+Q_CLUSTER = {
+    'name': 'mycluster',
+    'workers': 4,
+    'recycle': 500,
+    'timeout': 60,
+    'save_limit': 250,
+    'queue_limit': 500,
+    'cpu_affinity': 1,
+    'label': 'Django Q',
+    'redis': {
+        'host': 'localhost',
+        'port': 6379,
+        'db': 0,
+        'password': 'my_redis_password',
+        'socket_timeout': 3,
+    },
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

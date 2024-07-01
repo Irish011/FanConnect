@@ -17,4 +17,5 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('edit_clubs/', views.edit_clubs, name='edit_clubs'),
+    # path('admin_home/', views.admin_home, name='admin_home'),
 ]

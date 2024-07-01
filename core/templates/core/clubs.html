@@ -5,6 +5,7 @@
     <title>Clubs</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <header>
@@ -29,33 +30,42 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
-    <h1> Clubs </h1>
-    <ul>
+    <main class="container mt-3">
+    <h1>Clubs</h1> </br>
+    <div class="row">
         {% for club in clubs %}
-            <li>
-                <h2>{{ club.name }}</h2>
-                <p>Founded: {{ club.founded }}</p>
-                <p>Stadium: {{ club.stadium }}</p>
-                <p>Location: {{ club.location.city }}, {{ club.location.country }}</p>
-                <h3>Players:</h3>
-                <ul>
-                    {% for player in club.players %}
-                        <li>{{ player.name }} - {{ player.position }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ club.name }}</h2>
+                        <p class="card-text"><strong>Founded:</strong> {{ club.founded }}</p>
+                        <p class="card-text"><strong>Stadium:</strong> {{ club.stadium }}</p>
+                        <p class="card-text"><strong>Location:</strong> {{ club.location.city }}, {{ club.location.country }}</p>
+                        <h3>Players:</h3>
+                        <ul class="list-unstyled">
+                            {% for player in club.players %}
+                                <li>{{ player.name }} - {{ player.position }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

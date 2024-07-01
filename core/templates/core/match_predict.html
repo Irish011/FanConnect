@@ -5,6 +5,7 @@
     <title>Poll Prediction</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
     <header>
@@ -29,39 +30,47 @@
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'logout' %}">
                         {% csrf_token %}
-                        <button type="submit">Logout</button>
-                    </form>
+                        <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
 <!--                    <a href="{% url 'logout' %}">Logout</a>-->
                 {% else %}
-                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
 
-                    <a href="{% url 'register_user' %}">Register</a>
+                    <a href="{% url 'register_user' %}" class="btn btn-secondary">Register</a>
                 {% endif %}
             </div>
         </div>
     </header>
-    <main>
-        <h1>Predict the Winner</h1>
-        {% if match %}
-            <div class="match-details">
-                <p>{{ match.home_team_name }} vs {{ match.away_team_name }}</p>
+    <main class="container mt-3">
+    <h1>Predict the Winner</h1>
+    {% if match %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ match.home_team_name }} vs {{ match.away_team_name }}</h5>
                 <p>Date: {{ match.date }}</p>
             </div>
-            <form method="post">
-                {% csrf_token %}
-                <div class="poll-options">
-                    <label>
-                        <input type="radio" name="prediction" value="{{ match.home_team_id }}"> {{ match.home_team_name }}
-                    </label>
-                    <label>
-                        <input type="radio" name="prediction" value="{{ match.away_team_id }}"> {{ match.away_team_name }}
-                    </label>
+        </div></br>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="prediction">Predict the Winner:</label><br>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="home_team" name="prediction" value="{{ match.home_team_id }}">
+                    <label class="form-check-label" for="home_team">{{ match.home_team_name }}</label>
                 </div>
-                <button type="submit">Submit Prediction</button>
-            </form>
-        {% else %}
-            <p>{{ error }}</p>
-        {% endif %}
-    </main>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="away_team" name="prediction" value="{{ match.away_team_id }}">
+                    <label class="form-check-label" for="away_team">{{ match.away_team_name }}</label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Prediction</button>
+        </form>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
