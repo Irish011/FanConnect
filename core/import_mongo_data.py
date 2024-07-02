@@ -40,13 +40,13 @@ for club in club_collection.find():
 for match in match_collection.find():
     home_team = Club.objects.get(mongo_id=str(match['home_team_id']))
     away_team = Club.objects.get(mongo_id=str(match['away_team_id']))
-
     match_date = datetime.strptime(match['date'], "%Y-%m-%d %H:%M:%S")
     # match_date = timezone.make_aware(match['date'], timezone.get_current_timezone())
 
     Match.objects.get_or_create(
         home_team=home_team,
         away_team=away_team,
+        mongo_id=str(match['_id']),
         defaults={
             'competition': match['competition'],
             'venue': match['venue'],
@@ -57,6 +57,6 @@ for match in match_collection.find():
             'attendance': match['attendance'],
             'referee': match['referee'],
             'season': match['season'],
-            'win_team': Club.objects.get(mongo_id=str(match.get('win_team_id'))) if match.get('win_team_id') else None
+            'win_team': Club.objects.get(mongo_id=str(match.get('win_team_id'))) if match.get('win_team_id') else None,
         }
     )

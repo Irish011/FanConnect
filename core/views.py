@@ -33,33 +33,6 @@ def get_match_id(matches):
     return [str(match['_id']) for match in matches]
 
 
-def home(request):
-    teams = Team.objects.all()
-    return render(request, 'core/home.html', {'teams': teams})
-
-
-def team_detail(request, team_id):
-    team = get_object_or_404(Team, id=team_id)
-    posts = team.posts.all()
-    return render(request, 'core/team_detail.html', {'teams': team, 'posts': posts})
-
-
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    return render(request, 'core/post_detail.html', {'post': post})
-
-
-def register_team(request):
-    if request.method == 'POST':
-        form = TeamForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = TeamForm()
-    return render(request, 'core/register_team.html', {'form': form})
-
-
 def register_user(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -122,7 +95,6 @@ def profile(request):
 @fetch_matches
 @check_predictions
 def matches_view(request):
-    print("hi")
     if not request.user.is_authenticated:
         completed_matches = list(matches_collection.find({"status": "Completed"}))
         upcoming_matches = list(matches_collection.find({"status": "Upcoming"}))
@@ -135,12 +107,10 @@ def matches_view(request):
             'upcoming_matches': upcoming_matches,
             'completed_matches': completed_matches,
         })
-    print("hi")
     return render(request, 'core/matches.html', {
         'upcoming_matches': request.upcoming_matches,
         'completed_matches': request.completed_matches,
     })
-
 
 
 @login_required
@@ -170,7 +140,7 @@ def edit_clubs(request):
             selected_club_ids = form.cleaned_data['favorite_clubs']
             user_document = request.user_document
             user_collection.update_one({'_id': user_document['_id']},
-                                   {'$set': {'favorite_clubs': selected_club_ids}})
+                                       {'$set': {'favorite_clubs': selected_club_ids}})
             return redirect('profile')
     else:
         form = UsersForm(initial={'favorite_clubs': [str(club['_id']) for club in request.favorite_clubs]})
@@ -186,14 +156,24 @@ def edit_clubs(request):
 @fetch_matches
 @check_predictions
 def match_poll(request, match_id):
-    match = next((match for match in request.upcoming_matches if str(match['_id']) == match_id), None)
+    try:
+        match = next((match for match in request.upcoming_matches if str(match['_id']) == match_id), None)
+    except:
+        match = None
+
     if not match:
         return HttpResponse("Match not found", status=404)
 
     if request.method == 'POST':
-        prediction = request.POST.get('prediction')
-        # Handle the prediction logic here
-        return redirect('matches')
+        win_team_id = request.POST.get('prediction')
+        user_document = request.user_document
+        user_id = user_document['_id']
+        predictions_collections.insert_one({
+            'user_id': user_id,
+            'match_id': ObjectId(match_id),
+            'win_team_id': ObjectId(win_team_id)
+        })
+        return redirect('match_details')
 
     return render(request, 'core/match_predict.html', {'match': match})
 
