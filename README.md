@@ -9,7 +9,7 @@ So, conceptually the application does not handle the data of the clubs, the play
 
 On a perfect prediction the user gets 1 point as a reward, which they can check from their profile.
 
-And using this rewards there is various perks a user can get which will help in more user engagement.
+And using these rewards there are various perks a user can avail which will help in more user engagement.
 
 ## TECHNOLOGIES ##
 
