@@ -1,6 +1,7 @@
 import pymongo
 
-url = 'mongodb://localhost:27017'
+# url = 'mongodb://localhost:27017'
+url = 'mongodb+srv://ajaybhartiirish:pYWWczuSxzfbrabX@fanconnect.kwpr27l.mongodb.net/'
 client = pymongo.MongoClient(url)
 
 db = client['FanConnect']
