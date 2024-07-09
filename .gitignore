@@ -1,1 +1,5 @@
-db
+db/clubs.json
+db/matches.json
+db/players.json
+db/users.json
+.__pycache__
