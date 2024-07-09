@@ -13,16 +13,16 @@ And using these rewards there are various perks a user can avail which will help
 
 ## TECHNOLOGIES ##
 
-I have used Pyhton with Django as a framework. Since Django has built in admin panel, helps with CSRF Tokens, Authentication System and managing complex data models with ORM.
+- I have used Pyhton with Django as a framework. Since Django has built in admin panel, helps with CSRF Tokens, Authentication System and managing complex data models with ORM.
 For now, the admin has to change the status of the match as soon as it is completed and also select the winning team.
 
-For updating the rewards of a user if his prediction is true, I have used "Signals" and "Celery", which helps to run asynchronous tasks in the background.
+- For updating the rewards of a user if his prediction is true, I have used "Signals" and "Celery", which helps to run asynchronous tasks in the background.
 
-I have also used custom annotations to make the code more clean and readable.
+- I have also used custom annotations to make the code more clean and readable.
 
-For Database I have used MongoDB. And to use MongoDB with Django I have used a library "pymongo". 
+- For Database I have used MongoDB. And to use MongoDB with Django I have used a library "pymongo". 
 
-This app right now does not have its full implementation but it has some core functionalities of what it does.
+- This app right now does not have its full implementation but it has some core functionalities of what it does.
 
 ## APP / MODULE DESCRIPTION ##
 
