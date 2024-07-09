@@ -1,0 +1,80 @@
+[{
+  "_id": {
+    "$oid": "667d90d322f62f86c25c7eae"
+  },
+  "home_team_id": {
+    "$oid": "667d90d311f62f86c25c7eae"
+  },
+  "away_team_id": {
+    "$oid": "667d90d311f63f86c25c7eae"
+  },
+  "competition": "La Liga",
+  "venue": "Bernabau",
+  "city": "Madrid",
+  "country": "Spain",
+  "date": "2024-06-27 18:30:00",
+  "status": "Upcoming",
+  "attendance": 55000,
+  "referee": "O'neil",
+  "season": "2023-2024"
+},
+{
+  "_id": {
+    "$oid": "667dbf6911f62f86c25c7ec4"
+  },
+  "home_team_id": {
+    "$oid": "667d90d323f62f86c25c7eae"
+  },
+  "away_team_id": {
+    "$oid": "667d90d311f63f86c25c7eae"
+  },
+  "competition": "La Liga",
+  "venue": "Bernabau",
+  "city": "Madrid",
+  "country": "Spain",
+  "date": "2024-06-28 18:00:00",
+  "status": "Upcoming",
+  "attendance": 55000,
+  "referee": "O'neil",
+  "season": "2023-2024"
+},
+{
+  "_id": {
+    "$oid": "667d90d322f62f86c24c7eae"
+  },
+  "home_team_id": {
+    "$oid": "667d90d311f62f96c25c7eae"
+  },
+  "away_team_id": {
+    "$oid": "667d90d323f62f86c25c7eae"
+  },
+  "competition": "La Liga",
+  "venue": "Old Trafford",
+  "city": "London",
+  "country": "United Kingdom",
+  "date": "2024-06-24 19:30:00",
+  "status": "Upcoming",
+  "attendance": 55000,
+  "referee": "O'neil",
+  "season": "2023-2024"
+},
+{
+  "_id": {
+    "$oid": "667d90d122f62f86c25c7eae"
+  },
+  "home_team_id": {
+    "$oid": "667d90d311f62f86c25c7eae"
+  },
+  "away_team_id": {
+    "$oid": "667d90d323f62f86c25c7eae"
+  },
+  "competition": "La Liga",
+  "venue": "Bernabau",
+  "city": "Madrid",
+  "country": "Spain",
+  "date": "2024-06-26 19:00:00",
+  "status": "Upcoming",
+  "attendance": 55000,
+  "referee": "O'neil",
+  "season": "2023-2024"
+}]

@@ -1,0 +1,176 @@
+[{
+  "_id": {
+    "$oid": "667d90d311f62f86c25c7eae"
+  },
+  "name": "Real madrid",
+  "founded": 1892,
+  "stadium": "Stadium Name 1",
+  "location": {
+    "city": "City Name 1",
+    "country": "Country Name 1"
+  },
+  "players": [
+    {
+      "player_id": {
+        "$oid": "667d90d311f62f86c24c7eae"
+      },
+      "name": "Player Name 1",
+      "position": "Forward",
+      "number": 9,
+      "age": 28,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 100,
+        "goals": 50,
+        "assists": 30
+      }
+    },
+    {
+      "player_id": {
+        "$oid": "667d90d312f62f86c25c7eae"
+      },
+      "name": "Player Name 2",
+      "position": "Midfielder",
+      "number": 8,
+      "age": 26,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 120,
+        "goals": 20,
+        "assists": 50
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "667d90d311f63f86c25c7eae"
+  },
+  "name": "Barcelona",
+  "founded": 1892,
+  "stadium": "Stadium Name 1",
+  "location": {
+    "city": "City Name 1",
+    "country": "Country Name 1"
+  },
+  "players": [
+    {
+      "player_id": {
+        "$oid": "667d90d311f72f86c24c7eae"
+      },
+      "name": "Player Name 1",
+      "position": "Forward",
+      "number": 9,
+      "age": 28,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 100,
+        "goals": 50,
+        "assists": 30
+      }
+    },
+    {
+      "player_id": {
+        "$oid": "667d90d312f82f86c25c7eae"
+      },
+      "name": "Player Name 2",
+      "position": "Midfielder",
+      "number": 8,
+      "age": 26,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 120,
+        "goals": 20,
+        "assists": 50
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "667d90d311f62f96c25c7eae"
+  },
+  "name": "Manchester United",
+  "founded": 1892,
+  "stadium": "Stadium Name 1",
+  "location": {
+    "city": "City Name 1",
+    "country": "Country Name 1"
+  },
+  "players": [
+    {
+      "player_id": {
+        "$oid": "667d90d311f62f86c24c7eae"
+      },
+      "name": "Player Name 1",
+      "position": "Forward",
+      "number": 9,
+      "age": 28,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 100,
+        "goals": 50,
+        "assists": 30
+      }
+    },
+    {
+      "player_id": {
+        "$oid": "667d90d312f62f86c25c7eae"
+      },
+      "name": "Player Name 2",
+      "position": "Midfielder",
+      "number": 8,
+      "age": 26,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 120,
+        "goals": 20,
+        "assists": 50
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "667d90d323f62f86c25c7eae"
+  },
+  "name": "PSG",
+  "founded": 1892,
+  "stadium": "Stadium Name 1",
+  "location": {
+    "city": "City Name 1",
+    "country": "Country Name 1"
+  },
+  "players": [
+    {
+      "player_id": {
+        "$oid": "667d90d311f62f86c24c7eae"
+      },
+      "name": "Player Name 1",
+      "position": "Forward",
+      "number": 9,
+      "age": 28,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 100,
+        "goals": 50,
+        "assists": 30
+      }
+    },
+    {
+      "player_id": {
+        "$oid": "667d90d312f62f86c25c7eae"
+      },
+      "name": "Player Name 2",
+      "position": "Midfielder",
+      "number": 8,
+      "age": 26,
+      "nationality": "Country",
+      "stats": {
+        "appearances": 120,
+        "goals": 20,
+        "assists": 50
+      }
+    }
+  ]
+}]

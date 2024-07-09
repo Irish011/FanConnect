@@ -4,8 +4,6 @@ from bson.objectid import ObjectId
 from bson.errors import InvalidId
 
 
-
-
 class UserForm(forms.Form):
     username = forms.CharField(max_length=100)
     age = forms.IntegerField()

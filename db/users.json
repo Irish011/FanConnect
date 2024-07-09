@@ -1,0 +1,38 @@
+[{
+  "_id": {
+    "$oid": "667d91f17394916304e44961"
+  },
+  "username": "irishh",
+  "age": 23,
+  "email": "ajaybhartiirish@gmail.com",
+  "mobile_number": "7567055779",
+  "country": "India",
+  "password": "pbkdf2_sha256$720000$V7RK4q3bFNvKsdiUCKzUvI$Ip0qwxjSvBKjc61FIt33fOgTgAz7PwiSsb5MPw5c0Rc=",
+  "favorite_clubs": [
+    {
+      "$oid": "667d90d311f62f86c25c7eae"
+    },
+    {
+      "$oid": "667d90d311f63f86c25c7eae"
+    },
+    {
+      "$oid": "667d90d311f62f96c25c7eae"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6681876e3ebc98b08946beff"
+  },
+  "username": "irish",
+  "age": 23,
+  "email": "ajaybhartiirish@gmail.com",
+  "mobile_number": "7567055779",
+  "country": "India",
+  "password": "pbkdf2_sha256$720000$PaeCVNKeKmK8cQtqVd8bmx$WXbnPDY3h2Af/ocJfw46hmBdBMud/iE/ctB253CInkA=",
+  "favorite_clubs": [
+    "667d90d311f62f86c25c7eae",
+    "667d90d311f63f86c25c7eae"
+  ],
+  "rewards": 0
+}]
