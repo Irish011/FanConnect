@@ -45,14 +45,18 @@ Matches
    python manage.py runserver
 
 2) Access the application on
-   http://loalhost:8000
+   http://localhost:8000
 
 3) Create a superuser to access Admin panel
    python manage.py createsuperuser
 
-4)  Start the Celery
+4) Make sure you have RabbitMQ installed
+   https://www.rabbitmq.com/docs/download
+   Once you have it installed make sure the RabbitMQ service is started
+
+6)  Start the Celery service
     celery -A fanconnect worker --loglevel=info
 
-5) Import the Mongo data
+7) Import the Mongo data
    python manage.py shell < core/import_mongo_data.py
 
