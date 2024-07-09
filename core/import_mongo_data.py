@@ -1,20 +1,11 @@
 import os
 import django
-from pymongo import MongoClient
-from bson.objectid import ObjectId
-from django.utils import timezone
+from db_connections import club_collection, matches_collection
 from datetime import datetime
+from core.models import Club, Match
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fanconnect.settings')
 django.setup()
-
-from core.models import Club, Match
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['FanConnect']
-
-club_collection = db['clubs']
-match_collection = db['matches']
 
 # Import clubs
 for club in club_collection.find():
@@ -35,9 +26,8 @@ for club in club_collection.find():
         }
     )
 
-
 # Import matches
-for match in match_collection.find():
+for match in matches_collection.find():
     home_team = Club.objects.get(mongo_id=str(match['home_team_id']))
     away_team = Club.objects.get(mongo_id=str(match['away_team_id']))
     match_date = datetime.strptime(match['date'], "%Y-%m-%d %H:%M:%S")

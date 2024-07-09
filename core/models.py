@@ -2,16 +2,18 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import models
-from core.task import update_predictions_and_rewards
+from bson.objectid import ObjectId
+from db_connections import matches_collection, predictions_collections, user_collection
+# from core.task import update_predictions_and_rewards
 
 
 class Club(models.Model):
-    mongo_id = models.CharField(max_length=24, unique=True)  # Storing the MongoDB _id as a string
+    mongo_id = models.CharField(max_length=24, unique=True)
     name = models.CharField(max_length=255)
     founded = models.IntegerField()
     stadium = models.CharField(max_length=255)
-    location = models.JSONField()  # Using JSONField to store the location object
-    players = models.JSONField()  # Using JSONField to store the array of players
+    location = models.JSONField()
+    players = models.JSONField()
 
     def __str__(self):
         return self.name
@@ -19,8 +21,8 @@ class Club(models.Model):
 
 class Prediction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    match_id = models.CharField(max_length=24)  # Assuming match_id is stored as a string
-    win_team_id = models.CharField(max_length=24)  # Assuming win_team_id is stored as a string
+    match_id = models.CharField(max_length=24)
+    win_team_id = models.CharField(max_length=24)
 
     def __str__(self):
         return f"Prediction by {self.user} for match {self.match_id} predicting team {self.win_team_id}"
@@ -60,4 +62,22 @@ def update_match_status(sender, instance, **kwargs):
         else:
             win_team_id = instance.win_team.mongo_id
         print(win_team_id)
-        update_predictions_and_rewards.delay(match_id, win_team_id)
+        # update_predictions_and_rewards.delay(match_id, win_team_id)
+        # def update_predictions_and_rewards(match_id, win_team_id):
+
+        matches_collection.update_one(
+            {'_id': ObjectId(match_id)},
+            {'$set': {'status': 'Completed', 'win_team_id': ObjectId(win_team_id)}}
+        )
+
+        predictions = list(
+            predictions_collections.find({'match_id': ObjectId(match_id), 'win_team_id': ObjectId(win_team_id)}))
+        if predictions:
+            print("Present", predictions)
+
+        for prediction in predictions:
+            user_id = prediction['user_id']
+            user_collection.update_one(
+                {'_id': ObjectId(user_id)},
+                {'$inc': {'rewards': 1}}
+            )
