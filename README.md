@@ -23,3 +23,36 @@ I have also used custom annotations to make the code more clean and readable.
 For Database I have used MongoDB. And to use MongoDB with Django I have used a library "pymongo". 
 
 This app right now does not have its full implementation but it has some core functionalities of what it does.
+
+## APP / MODULE DESCRIPTION ##
+
+Core
+- Models: It contains models for Club, Matches and userProfile
+- Views: Handles the processing and data for matches and clubs
+- Admin: COnfigures the Admin interface of Django for managing models
+
+Users
+- Authentication: Manages user logins, registrations and profiles
+- Views: Provides views for user related actions
+
+Matches
+- Management: Allows for updation of match data
+- Views: Displays the match data to users
+
+## How to run the application locally
+
+1) Start the server
+   python manage.py runserver
+
+2) Access the application on
+   http://loalhost:8000
+
+3) Create a superuser to access Admin panel
+   python manage.py createsuperuser
+
+4)  Start the Celery
+    celery -A fanconnect worker --loglevel=info
+
+5) Import the Mongo data
+   python manage.py shell < core/import_mongo_data.py
+
