@@ -41,22 +41,39 @@ Matches
 
 ## How to run the application locally
 
-1) Start the server
-   python manage.py runserver
+1) Clone the Repository
+   ```
+      git clone https://github.com/Irish011/fanconnect.git
+      cd fanconnect
+   ```
+   
+2) Create a Virtual Environment
+   ```
+      python -m venv env
+      source env/bin/activate  #MacBook
+      env\Scripts\activate     #Windows
+   ```
+   
+3) Install the dependencies
+   ```
+      pip install -r requirements.txt
+   ```
+   
+5) Start the server
+   ```
+      python manage.py runserver
+   ```
+   
+7) Access the application on
+   ```
+      http://localhost:8000
+   ```
+   
+9) Create a superuser to access Admin panel
+   ```
+      python manage.py createsuperuser
+   ```
 
-2) Access the application on
-   http://localhost:8000
+## DATABASE
 
-3) Create a superuser to access Admin panel
-   python manage.py createsuperuser
-
-4) Make sure you have RabbitMQ installed
-   https://www.rabbitmq.com/docs/download
-   Once you have it installed make sure the RabbitMQ service is started
-
-6)  Start the Celery service
-    celery -A fanconnect worker --loglevel=info
-
-7) Import the Mongo data
-   python manage.py shell < core/import_mongo_data.py
-
+For database Create a Database in MongoDB and have 3 collections matches, clubs and players. The flow of the application is that the data of these 3 collections come from an API, so you have to manually input the data in those collections for demo use.
